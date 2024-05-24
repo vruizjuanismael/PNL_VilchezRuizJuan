@@ -24,10 +24,7 @@ class CotizacionController extends Controller
      */
     public function create()
     {
-        // Obtener todos los clientes desde la base de datos
         $clientes = Cliente::all();
-
-        // Pasar los clientes a la vista
         return view('cotizacion.create', compact('clientes'));
     }
 

@@ -1,43 +1,48 @@
-<div class="modal-content">
-    <form id="formUpdate" action="{{ $cliente->id ? route('cliente.update', $cliente) : route('cliente.store') }}" method="post">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-title">Cliente</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            @if($cliente->id)
-                @method('PUT')
-                <input type="hidden" name="id" value="{{ $cliente->id }}">
-            @endif
-            @csrf
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingrese nombre" value="{{ $cliente->nombre }}">
-                <div id="msg_nombre"></div>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="Ingrese email" value="{{ $cliente->email }}">
-                <div id="msg_email"></div>
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono</label>
-                <input type="text" name="telefono" class="form-control" id="telefono" placeholder="Ingrese teléfono" value="{{ $cliente->telefono }}">
-                <div id="msg_telefono"></div>
-            </div>
-            <div class="form-group">
-                <label for="direccion">Dirección</label>
-                <textarea name="direccion" class="form-control" id="direccion" placeholder="Ingrese dirección">{{ $cliente->direccion }}</textarea>
-                <div id="msg_direccion"></div>
-            </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary" id="guardar">
-                <span id="textoBoton">Guardar</span>
-            </button>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar cotización</title>
+</head>
+<body>
+    <form action="{{ route('cotizacion.update', $cotizacion) }}" method="post">
+        @csrf
+        @method('PUT')
+
+        <label for="cliente_id">Cliente ID:</label>
+        <select name="cliente_id" id="cliente_id" required>
+            @foreach($clientes as $cliente)
+                <option value="{{ $cliente->id }}" {{ $cotizacion->cliente_id == $cliente->id ? 'selected' : '' }}>{{ $cliente->id }}</option>
+            @endforeach
+        </select><br><br>
+
+        <label for="fecha_creacion">Fecha de creación:</label>
+        <input type="date" name="fecha_creacion" id="fecha_creacion" value="{{ $cotizacion->fecha_creacion }}" required><br><br>
+
+        <label for="productos_servicios">Productos/Servicios:</label>
+        <input type="text" name="productos_servicios" id="productos_servicios" value="{{ $cotizacion->productos_servicios }}" required><br><br>
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" name="cantidad" id="cantidad" value="{{ $cotizacion->cantidad }}" required><br><br>
+
+        <label for="precio_unitario">Precio unitario:</label>
+        <input type="number" name="precio_unitario" id="precio_unitario" step="0.01" value="{{ $cotizacion->precio_unitario }}" required><br><br>
+
+        <label for="total">Total:</label>
+        <input type="number" name="total" id="total" step="0.01" value="{{ $cotizacion->total }}" required><br><br>
+
+        <label for="estado">Estado:</label>
+        <select name="estado" id="estado" required>
+            <option value="pendiente" {{ $cotizacion->estado === 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+            <option value="aceptada" {{ $cotizacion->estado === 'aceptada' ? 'selected' : '' }}>Aceptada</option>
+            <option value="rechazada" {{ $cotizacion->estado === 'rechazada' ? 'selected' : '' }}>Rechazada</option>
+        </select><br><br>
+
+        <label for="notas">Notas:</label>
+        <textarea name="notas" id="notas">{{ $cotizacion->notas }}</textarea><br><br>
+
+        <input type="submit" value="Guardar">
     </form>
-</div>
+</body>
+</html>

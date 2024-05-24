@@ -107,7 +107,8 @@
             method: 'get',
             url: `{{url('cotizacion')}}/${id}/edit`,
             success: function(res){
-              $('#modal-update').find('.modal-dialog').html(res);
+              //$('#modal-update').find('.modal-dialog').html(res);
+              $('#modal-update .modal-content').html(res);
               $("#textoBoton").text("Actualizar");
               $('#modal-update').modal("show");
               guardar();
